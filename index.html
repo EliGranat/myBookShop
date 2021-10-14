@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>book-shop</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body onload="init()">
+    <section class="header">
+        <h1>book-shop</h1>
+        <nav>
+            <!-- <button><a href="#services">Services</a></button> -->
+            <button> <a href="#">Home</a></button>
+            <button><a href="#contact">Contect Us</a></button>
+        </nav>
+
+        <div class="container-head-action">
+            <div class="add-book">
+                <input class="name-book" type="text" placeholder="Name of the Book">
+                <input class="price-book" type="text" placeholder="Price of the Book">
+                <button class="create" onclick="onAddBook()">add new </button>
+            </div>
+            <div class="sort-by">
+                <select onchange="onSetSort(this.value)">
+                <option value="SORT">SORT BY</option>
+                <option value="NAME">NAME</option>
+                <option value="PRICE">PRICE</option>
+                </select>
+            </div>
+        </div>
+
+
+    </section>
+    <div class="enter-new-price" hidden>
+        <div class="container-update">
+            <h1>Please Enter New Price </h1>
+            <input class="update-price-book" type="text" placeholder="Update price">
+            <button class="update-price" onclick="onEnterPrice()">send new </button>
+        </div>
+    </div>
+    <div hidden class="modal-about-book"></div>
+    </div>
+
+    <section class="books">
+    </section>
+
+    <div class="container-next-page">
+
+        <div class="next-page">
+            <button onclick="onMovePage(1)"> <a href="#">Next Page</a></button>
+        </div>
+        <div class="num-page">
+            <h5>1</h5>
+        </div>
+        <div class="next-page">
+            <button onclick="onMovePage(0)"><a href="#">Back Page</a></button>
+        </div>
+
+    </div>
+
+    <footer>
+        <section>
+            <!-- <a name="services"></a> -->
+            <h2>Welcome to Bookshop!</h2>
+            <p>
+                Bookshop is an online bookstore with a mission to financially support local, independent bookstores. We believe that bookstores are essential to a healthy culture. They’re where authors can connect with readers, where we discover new writers, where children
+                get hooked on the thrill of reading that can last a lifetime. They’re also anchors for our downtowns and communities. As more and more people buy their books online, we wanted to create an easy, convenient way for you to get your books
+                and support bookstores at the same time. If you want to find a specific local bookstore to support, find them on our map and they’ll receive the full profit off your order. Otherwise, your order will contribute to an earnings pool that
+                will be evenly distributed among independent bookstores (even those that don’t use Bookshop). We also support anyone who advocates for books through our affiliate program, which pays a 10% commission on every sale, and gives a matching
+                10% to independent bookstores. If you are an author, a website or magazine, have a bookclub, an organization that wants to recommend books, or even just a book-lover with an Instagram feed, you can sign up to be an affiliate, start your
+                own shop, and be rewarded for your advocacy of books. Bookshop wants to give back to everyone who promotes books, authors, and independent bookstores! By design, we give away over 75% of our profit margin to stores, publications, authors
+                and others who make up the thriving, inspirational culture around books! We hope that Bookshop can help strengthen the fragile ecosystem and margins around bookselling and keep local bookstores an integral part of our culture and communities.
+                Bookshop is a benefit corporation - a corporation dedicated to the public good.</p>
+        </section>
+
+        <section>
+            <a name="contact"></a>
+            <h3>Contact Us</h3>
+            <div class="connect-us">
+                <!-- <input id="scriptBox" type="text" onkeypress="return runScript(event)" /> -->
+                <h5> Please Leve Details And We Call You Back</h5>
+                <input class="user-name" type="text" placeholder="Enter Your Name " onkeypress=" runScript(event,'user-name')">
+                <input class="user-mail" type="mail" placeholder="Enter Your Mail" onkeypress=" runScript(event,'user-mail')">
+                <input class="num-phone" type="phone" placeholder="Enter Phone Number" onkeypress=" runScript(event,'num-phone')">
+                <button class="create" onclick="onContectUs()">send </button>
+
+
+
+            </div>
+            <div class="container-online-connect">
+
+                <a href="https://facebook.com/aaa.granat.zzz" target="_blank"><img src="./img_web/facebook.jpg"></a>
+                <a href="https://github.com/EliGranat" target="_blank"><img src="./img_web/github.svg"></a>
+                <a href="https://twitter.com/eligranat" target="_blank"><img src="./img_web/twitter.png"></a>
+                <a href="https://instagram.com/eli_granat/" target="_blank"><img src="./img_web/instegram.png"></a>
+            </div>
+        </section>
+        <div class="cofferight">
+            <h5> &copy; coffeerights 2021 By Eli Granat</h5>
+        </div>
+    </footer>
+    <script src="js/util-service.js"></script>
+    <script src="js/storage-service.js"></script>
+    <script src="js/book-service.js"></script>
+    <script src="js/book-controller.js"></script>
+
+</body>
+
+</html>
