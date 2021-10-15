@@ -56,10 +56,10 @@ function _createBooks() {
     if (!books || !books.length) {
         books = []
         for (var i = 0; i < 60; i++) {
-            var empty;
-            if (i < 12) { var img = i } else img = empty
+            // var empty;
+            // if (i < 12) { var img = i } else img = empty
 
-            books.push(_createBook(_getBookName(), getRandomInt(100, 130), img))
+            books.push(_createBook(_getBookName(), getRandomInt(100, 130), i < 12 ? i : undefined))
         }
     }
     gBooks = books;
@@ -67,7 +67,6 @@ function _createBooks() {
 }
 
 function _createBook(name, price, img = getRandomInt(1, 12)) {
-    console.log(img);
     return {
         id: makeId(),
         name,
@@ -99,7 +98,6 @@ function removeBookFromUser(id) {
 // service
 function changeRate(plusMin, idxBook) {
     var book = gBooks[idxBook]
-    console.log(book.rate);
 
     if (plusMin && book.rate < 7) {
         book.rate++
@@ -155,14 +153,20 @@ function createContects(user) {
 function _saveBooksToStorage() {
     saveToStorage(KEY, gBooks)
 }
+// console.log(regex(5, 'asdf1A1'));
+// console.log(regex(6, 'hdguh$10ggDDhsd'));
 
 function regex(check, item) {
     const regexNum = /^[0-9]+$/g
     const regexWord = /^[a-z ,.'-]+$/g
     const regexPhone = /^(?:(?:(\+?972|\(\+?972\)|\+?\(972\))(?:\s|\.|-)?([1-9]\d?))|(0\d{1,2}))(?:\s|\.|-)?([^0\D]{1}\d{2}(?:\s|\.|-)?\d{4})$/g
     const regexMail = /^((\w[^\W]+)[\.\-]?){1,}\@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g
+    const regexUserName = /^[a-zA-Z0-9]+[._]?[a-zA-Z0-9]+$/g
+    const regexPassword = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/gm
     if (check === 1) return regexNum.test(item)
     else if (check === 2) return regexWord.test(item)
     else if (check === 3) return regexPhone.test(item)
     else if (check === 4) return regexMail.test(item)
+    else if (check === 5) return regexUserName.test(item)
+    else if (check === 6) return regexPassword.test(item)
 }

@@ -1,15 +1,16 @@
 'use strict'
 var gShowModal
 var gChangePrice
+const gElBtnOpenModal = document.querySelector('.login_open_modal ')
+const gElBtnLogOut = document.querySelector('.logout_close_modal')
+const gElConteinerLogin = document.querySelector('.login_modal')
+const gElForAdminAddBook = document.querySelector('.add-book')
+const gElBackgroundShowModals = document.querySelector('.background-show-modals')
 
 function init() {
     changeMuchBookOnPage()
     renderBooks()
-        // onKeyPress={this.handleChange}
-        // handleChange: function(e) {
-        //     if (e.key == 'Enter') {
-        //       console.log('test');
-        //     }
+
 }
 
 function runScript(ev, item) {
@@ -19,8 +20,8 @@ function runScript(ev, item) {
 function renderBooks() {
 
     var books = gettBooks()
-    console.log(books);
     var elHTML = ''
+    var showToAdmin = isNotAdmin()
     books.forEach(book => {
         elHTML += `<div class="card books-list shadow-lg p-3 mb-5 bg-white rounded" style="width: 18rem;">
             <img class="card-img-top img-books" src="./img/${book.img}.jpg" alt="Card image cap">
@@ -31,8 +32,8 @@ function renderBooks() {
                 <h6 class="card-text book-price">${book.price} &#36</h6>
                 <div class="container-btn-books">
                 <button onclick="onOpenModal('${book.id}')" class="btn btn-primary btn-book"> openModal</button>
-                <button onclick="onUpdatePrice('${book.id}')" class="btn btn-primary btn-book"> Update</button>
-                <button onclick="onRemoveBook('${book.id}')" class="btn btn-primary btn-book"> Delete</button>
+                <button  onclick="onUpdatePrice('${book.id}')" class="btn btn-primary btn-book-admin btn-book ${showToAdmin}" > Update</button>
+                <button onclick="onRemoveBook('${book.id}')" class="btn btn-primary btn-book-admin btn-book ${showToAdmin}" > Delete</button>
                 </div>
             </div>
         </div>`
@@ -61,6 +62,8 @@ function onUpdatePrice(book) {
     gChangePrice = book
     var elUpdatehide = document.querySelector('.enter-new-price')
     elUpdatehide.hidden = false
+    gElBackgroundShowModals.hidden = false
+
 }
 
 function onEnterPrice() {
@@ -73,6 +76,8 @@ function onEnterPrice() {
         renderBooks()
         var elUpdatehide = document.querySelector('.enter-new-price')
         elUpdatehide.hidden = true
+        gElBackgroundShowModals.hidden = true
+
     }
 }
 
@@ -84,7 +89,6 @@ function onRemoveBook(id) {
 function onOpenModal(id) {
     gShowModal = id
     showModal(id)
-        // console.log(book);
 }
 
 function onRatePlus(idxBook) {
@@ -108,7 +112,6 @@ function closeModal() {
 }
 
 function onSetSort(value) {
-    console.log();
     sortBy(value)
     renderBooks()
 }
@@ -171,7 +174,6 @@ function showModal(id) {
 
 // controler
 function starRate(rate) {
-    console.log(rate);
     var elHTML = ''
     var maxRate = 7;
 
@@ -185,4 +187,52 @@ function starRate(rate) {
         elHTML += STAR_YELLOW
     }
     return elHTML
+}
+
+function showContect() {
+    var elContect = document.querySelector('.container-online-contect')
+    if (elContect.hidden) elContect.hidden = false
+    else elContect.hidden = true
+
+}
+
+
+function onLogOut() {
+    gElBtnOpenModal.style.display = 'block'
+    gElBtnLogOut.hidden = true
+    gElBtnLogOut.hidden = true
+    gElForAdminAddBook.hidden = true
+
+    logOut()
+    renderBooks()
+    saveToStorage(Users, gUsers)
+
+}
+
+function onLogOpenModal() {
+    gElConteinerLogin.hidden = false
+    gElBackgroundShowModals.hidden = false
+
+}
+
+
+function onLogInNow() {
+    var elUserName = document.querySelector('.user_name')
+    var elPassword = document.querySelector('.password')
+    if (elUserName.value && elPassword.value) {
+        var isUserOk = chackUserLog(elUserName, elPassword)
+    }
+    if (isUserOk) {
+        elUserName.value = ''
+        elPassword.value = ''
+        gElConteinerLogin.hidden = true
+        gElBtnOpenModal.style.display = 'none'
+        if (!isNotAdmin()) {
+            gElForAdminAddBook.hidden = false
+        }
+        gElBtnLogOut.hidden = false
+        gElBackgroundShowModals.hidden = true
+        renderBooks()
+        saveToStorage(Users, gUsers)
+    }
 }

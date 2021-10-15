@@ -6,22 +6,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>book-shop</title>
-    <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 
 <body onload="init()">
     <section class="header">
         <h1>book-shop</h1>
         <nav>
-            <!-- <button><a href="#services">Services</a></button> -->
             <button> <a href="#">Home</a></button>
             <button><a href="#contact">Contect Us</a></button>
         </nav>
+        <div class="background-show-modals" hidden></div>
+        <section class="login_modal" hidden>
+            <h3>Welcome</h3>
+            <h2> Log In </h2>
+            <input class="user_name" type="text" placeholder="User Name">
+            <input class="password" type="text" placeholder="Password">
+            <button onclick="onLogInNow()">log in</button>
 
+        </section>
+        <div class="login_open_modal">
+            <button onclick="onLogOpenModal()">Log In</button>
+        </div>
+        <div class="logout_close_modal" hidden>
+            <button onclick="onLogOut()">Log out</button>
+        </div>
         <div class="container-head-action">
-            <div class="add-book">
+            <div class="add-book" hidden>
                 <input class="name-book" type="text" placeholder="Name of the Book">
                 <input class="price-book" type="text" placeholder="Price of the Book">
                 <button class="create" onclick="onAddBook()">add new </button>
@@ -93,8 +105,8 @@
 
 
             </div>
-            <div class="container-online-connect">
-
+            <a class="showBtn" onclick="showContect()"> <img src="./img_web/icon-contact-us.svg"></a>
+            <div class="container-online-contect" hidden>
                 <a href="https://facebook.com/aaa.granat.zzz" target="_blank"><img src="./img_web/facebook.jpg"></a>
                 <a href="https://github.com/EliGranat" target="_blank"><img src="./img_web/github.svg"></a>
                 <a href="https://twitter.com/eligranat" target="_blank"><img src="./img_web/twitter.png"></a>
@@ -105,10 +117,11 @@
             <h5> &copy; coffeerights 2021 By Eli Granat</h5>
         </div>
     </footer>
-    <script src="js/util-service.js"></script>
-    <script src="js/storage-service.js"></script>
-    <script src="js/book-service.js"></script>
-    <script src="js/book-controller.js"></script>
+    <script src="./js/util-service.js"></script>
+    <script src="./js/storage-service.js"></script>
+    <script src="./js/users.js"></script>
+    <script src="./js/book-service.js"></script>
+    <script src="./js/book-controller.js"></script>
 
 </body>
 
