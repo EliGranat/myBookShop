@@ -320,7 +320,7 @@ footer section:nth-child(2) {
 .connect-us button {
     transition-duration: 0.4s;
     background-color: burlywood;
-/*     border: gray 1px solid; */
+    border: gray 1px solid;
     border-radius: 10%;
      
 
