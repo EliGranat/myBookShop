@@ -320,15 +320,17 @@ footer section:nth-child(2) {
 .connect-us button {
     transition-duration: 0.4s;
     background-color: burlywood;
-    border: gray 1px solid;
-    border-radius: 3px;
+/*     border: gray 1px solid; */
+    border-radius: 10%;
+     
+
 }
 
-.connect-us button:hover {
+/* .connect-us button:hover {
     background-color: #d3f803;
     /* Green */
     color: rgb(139, 131, 131);
-}
+} */
 
 .connect-us input {
     border-radius: 4px;
