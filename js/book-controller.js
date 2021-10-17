@@ -1,24 +1,27 @@
 'use strict'
 var gShowModal
 var gChangePrice
+var gItemsInShopingCart = []
+const STAR_YELLOW = `<img src="./img_web/star-yellow.svg" alt="yellow-star">`
+const STAR_RED = `<img src="./img_web/star-red.svg" alt="yellow-star">`
+const SHOPPING_CART = `<img src="./img_web/buy.svg" alt="cart-shopping">`
 const gElBtnOpenModal = document.querySelector('.login_open_modal ')
 const gElBtnLogOut = document.querySelector('.logout_close_modal')
 const gElConteinerLogin = document.querySelector('.login_modal')
 const gElForAdminAddBook = document.querySelector('.add-book')
-const gElBackgroundShowModals = document.querySelector('.background-show-modals')
+const gElBackgroundShowModals = document.querySelector('.background-show-in-modals')
+const elmnt = document.querySelector('.shoping-cart-modal')
 
 function init() {
     changeMuchBookOnPage()
     renderBooks()
+    elmnt.scrollIntoView()
 
 }
 
-function runScript(ev, item) {
-    console.log(ev.key, item);
-}
+
 
 function renderBooks() {
-
     var books = gettBooks()
     var elHTML = ''
     var showToAdmin = isNotAdmin()
@@ -31,9 +34,11 @@ function renderBooks() {
                 </div>
                 <h6 class="card-text book-price">${book.price} &#36</h6>
                 <div class="container-btn-books">
-                <button onclick="onOpenModal('${book.id}')" class="btn btn-primary btn-book"> openModal</button>
-                <button  onclick="onUpdatePrice('${book.id}')" class="btn btn-primary btn-book-admin btn-book ${showToAdmin}" > Update</button>
-                <button onclick="onRemoveBook('${book.id}')" class="btn btn-primary btn-book-admin btn-book ${showToAdmin}" > Delete</button>
+                <button onclick="onOpenModal('${book.id}')" class="btn btn-primary "> openModal</button>
+                <button class="add_to_shop_cart btn btn-outline-success" onclick="onAddToShopingCart('${book.id}')" >${SHOPPING_CART}</button>
+                <button class="buy_now btn btn-outline-success" onclick="onBuyNow('${book.id}')" > Buy Now</button>
+                <button  onclick="onUpdatePrice('${book.id}')" class="btn btn-primary btn-book-admin btn btn-warning  ${showToAdmin}" > Update</button>
+                <button onclick="onRemoveBook('${book.id}')" class="btn btn-primary btn-book-admin btn btn-danger ${showToAdmin}" > Delete</button>
                 </div>
             </div>
         </div>`
@@ -42,6 +47,71 @@ function renderBooks() {
     var elBook = document.querySelector('.books')
     elBook.innerHTML = elHTML
 }
+
+function onBuyNow(id) {
+    onAddToShopingCart(id)
+    onOpenCart()
+}
+
+function onOpenCart() {
+    const elContainerShopping = document.querySelector('.shoping-cart-modal')
+    elContainerShopping.hidden = !elContainerShopping.hidden
+}
+
+function onAddToShopingCart(id) {
+    var toReturn = false
+    gItemsInShopingCart.forEach(obj => {
+        if (obj.idUser === id) {
+            obj.counter++
+                toReturn = true
+            randerShopingCart()
+        }
+    })
+    if (toReturn) return;
+    gItemsInShopingCart.push({ idUser: id, counter: 1 })
+    randerShopingCart()
+}
+
+
+function randerShopingCart() {
+    const elContainerShopping = document.querySelector('.container-scroll-cart-modal')
+    var shoppingHTML = ''
+    gItemsInShopingCart.forEach(obj => {
+        var book = getBookById(obj.idUser)
+        shoppingHTML += `<div class="container-shopping">
+        
+        <h5> ${book.name}</h5>
+        <h6>${book.price}$</h6>
+       <div class="change-amount-cart">
+        <button class="btn-cart-plu-min" onclick="changeAmountCart(true,'${book.id}')">+ </button>
+        <input class="num-phone" type="phone" placeholder="${obj.counter}">
+        <button class="btn-cart-plu-min" onclick="changeAmountCart(false,'${book.id}')">- </button>
+        </div>
+        </div>`
+    })
+    elContainerShopping.innerHTML = shoppingHTML
+
+}
+
+function changeAmountCart(plusMin, id) {
+    gItemsInShopingCart.forEach((obj, idx) => {
+
+        if (obj.idUser === id) {
+            if (plusMin) {
+                obj.counter++
+            } else if (!plusMin && obj.counter > 0) {
+                obj.counter--
+                    if (obj.counter === 0) {
+                        console.log(gItemsInShopingCart);
+                        gItemsInShopingCart.splice(idx, 1)
+                        console.log(gItemsInShopingCart);
+                    }
+            }
+            randerShopingCart()
+        }
+    })
+}
+
 
 function onAddBook() {
     var elAddName = document.querySelector('.name-book')
@@ -63,7 +133,6 @@ function onUpdatePrice(book) {
     var elUpdatehide = document.querySelector('.enter-new-price')
     elUpdatehide.hidden = false
     gElBackgroundShowModals.hidden = false
-
 }
 
 function onEnterPrice() {
@@ -101,9 +170,8 @@ function onRatePlus(idxBook) {
 function onRateMin(idxBook) {
     const min = false
     changeRate(min, idxBook)
-        // renderBooks() if you have rate on the books map you need this to refres
-
     showModal(gShowModal)
+        // renderBooks() if you have rate on the books map you need this to refres
 }
 
 function closeModal() {
@@ -127,7 +195,7 @@ function updateIdxShow() {
     elNumPage.innerText = '' + str
     elNumPage.style.fontSize = '25px'
     elNumPage.style.color = 'brown'
-        //innerHTML TO CONTROLLER
+        //innerHTML TO CONTROLLER chack opt
 }
 
 function onContectUs() {
@@ -152,7 +220,7 @@ function onContectUs() {
 function showModal(id) {
     var books = getBooks()
     var idxShow = books.findIndex(book => book.id === id)
-        //find index - find
+        //find index - find change
     var book = books[idxShow];
     var elModal = document.querySelector('.modal-about-book')
     elModal.innerHTML = `<div class="name-book-modal">
@@ -161,7 +229,7 @@ function showModal(id) {
     <div class="img-modal">
     <img src="./img/${book.img}.jpg" alt="">
     </div>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia quas illo molestiae veritatis, dolores quae.</p>
+    <p>${book.descreption}</p>
     <div class="rate-book">
     <button onclick="onRatePlus(${idxShow})"><h5> &#9650;</h5></button>
     <button onclick="onRateMin(${idxShow})"><h5> &#9661; </h5></button>
@@ -176,16 +244,8 @@ function showModal(id) {
 function starRate(rate) {
     var elHTML = ''
     var maxRate = 7;
-
-    if (maxRate - rate) {
-        maxRate -= rate
-        for (var i = 0; i < maxRate; i++) {
-            elHTML += STAR_RED
-        }
-    }
-    for (var i = 0; i < rate; i++) {
-        elHTML += STAR_YELLOW
-    }
+    elHTML += STAR_RED.repeat(maxRate - rate)
+    elHTML += STAR_YELLOW.repeat(rate)
     return elHTML
 }
 

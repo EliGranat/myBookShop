@@ -1,8 +1,6 @@
 'use strict';
 // model all the function thet react to the control and let him services
 const KEY = 'booksSave'
-const STAR_YELLOW = `<img src="./img_web/star-yellow.svg" alt="yellow-star">`
-const STAR_RED = `<img src="./img_web/star-red.svg" alt="yellow-star">`
 var gSizePage = 6
 var pageIdx = 0
 var gBooks;
@@ -12,16 +10,23 @@ var gConnectUs = []
     // saveToStorage(KEY, _getBookName())
 _createBooks()
 
+function getBookById(idUser) {
+    var book = gBooks.find(book => book.id === idUser)
+    return book
+}
+
 function changeMuchBookOnPage() {
     var width = window.innerWidth ||
         document.documentElement.clientWidth ||
         document.body.clientWidth;
+
     if (width > 992) {
         gSizePage = 12;
     }
 }
 
 function nextPage(naxtOrBack) {
+
     if (naxtOrBack) {
         pageIdx++
         if (pageIdx * gSizePage >= gBooks.length) {
@@ -53,12 +58,11 @@ function _getBookName() {
 
 function _createBooks() {
     var books = loadFromStorage(KEY)
+
     if (!books || !books.length) {
         books = []
-        for (var i = 0; i < 60; i++) {
-            // var empty;
-            // if (i < 12) { var img = i } else img = empty
 
+        for (var i = 0; i < 60; i++) {
             books.push(_createBook(_getBookName(), getRandomInt(100, 130), i < 12 ? i : undefined))
         }
     }
@@ -72,7 +76,8 @@ function _createBook(name, price, img = getRandomInt(1, 12)) {
         name,
         price,
         img,
-        rate: getRandomInt(1, 7)
+        rate: getRandomInt(1, 7),
+        descreption: makeLorem(15)
     }
 }
 
@@ -103,6 +108,7 @@ function changeRate(plusMin, idxBook) {
         book.rate++
             _saveBooksToStorage()
         return
+
     } else if (!plusMin && book.rate > 0) {
         book.rate--
             _saveBooksToStorage()
@@ -158,7 +164,7 @@ function _saveBooksToStorage() {
 
 function regex(check, item) {
     const regexNum = /^[0-9]+$/g
-    const regexWord = /^[a-z ,.'-]+$/g
+    const regexWord = /^[a-zA-Z ,.'-]+$/g
     const regexPhone = /^(?:(?:(\+?972|\(\+?972\)|\+?\(972\))(?:\s|\.|-)?([1-9]\d?))|(0\d{1,2}))(?:\s|\.|-)?([^0\D]{1}\d{2}(?:\s|\.|-)?\d{4})$/g
     const regexMail = /^((\w[^\W]+)[\.\-]?){1,}\@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g
     const regexUserName = /^[a-zA-Z0-9]+[._]?[a-zA-Z0-9]+$/g

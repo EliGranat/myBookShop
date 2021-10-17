@@ -1,0 +1,12 @@
+body {
+    background-color: #ffffff;
+    background-attachment: fixed;
+}
+
+.modal-about-book {
+    width: 80vw;
+    height: 90vh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

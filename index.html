@@ -13,31 +13,43 @@
 <body onload="init()">
     <section class="header">
         <h1>Book-Shop</h1>
+        <h4>login user - name:g , pass:h</h4>
+        <h4>login admin - name:e , pass:9</h4>
+
         <nav>
             <button> <a href="#">Home</a></button>
             <button><a href="#contact">Contect Us</a></button>
         </nav>
-        <div class="background-show-modals" hidden></div>
+
+        <div class="icon-open-cart" onclick="onOpenCart()">
+            <img src="./img_web/buy.svg" alt="icon-cart">
+        </div>
+
+        <div class="background-show-in-modals" hidden></div>
+
         <section class="login_modal" hidden>
             <h3>Welcome</h3>
             <h2> Log In </h2>
             <input class="user_name" type="text" placeholder="User Name">
             <input class="password" type="text" placeholder="Password">
             <button onclick="onLogInNow()">log in</button>
-
         </section>
+
         <div class="login_open_modal">
             <button onclick="onLogOpenModal()">Log In</button>
         </div>
+
         <div class="logout_close_modal" hidden>
             <button onclick="onLogOut()">Log out</button>
         </div>
+
         <div class="container-head-action">
             <div class="add-book" hidden>
                 <input class="name-book" type="text" placeholder="Name of the Book">
                 <input class="price-book" type="text" placeholder="Price of the Book">
                 <button class="create" onclick="onAddBook()">add new </button>
             </div>
+
             <div class="sort-by">
                 <select onchange="onSetSort(this.value)">
                 <option value="SORT">SORT BY</option>
@@ -45,10 +57,10 @@
                 <option value="PRICE">PRICE</option>
                 </select>
             </div>
+
         </div>
-
-
     </section>
+
     <div class="enter-new-price" hidden>
         <div class="container-update">
             <h1>Please Enter New Price </h1>
@@ -56,8 +68,8 @@
             <button class="update-price" onclick="onEnterPrice()">send new </button>
         </div>
     </div>
+
     <div hidden class="modal-about-book"></div>
-    </div>
 
     <section class="books">
     </section>
@@ -67,9 +79,11 @@
         <div class="next-page">
             <button onclick="onMovePage(1)"> <a href="#">Next Page</a></button>
         </div>
+
         <div class="num-page">
             <h5>1</h5>
         </div>
+
         <div class="next-page">
             <button onclick="onMovePage(0)"><a href="#">Back Page</a></button>
         </div>
@@ -77,8 +91,8 @@
     </div>
 
     <footer>
+
         <section>
-            <!-- <a name="services"></a> -->
             <h2>Welcome to Bookshop!</h2>
             <p>
                 Bookshop is an online bookstore with a mission to financially support local, independent bookstores. We believe that bookstores are essential to a healthy culture. They’re where authors can connect with readers, where we discover new writers, where children
@@ -92,31 +106,52 @@
         </section>
 
         <section>
+
             <a name="contact"></a>
             <div class="connect-us">
                 <h3>Contact Us</h3>
-                <!-- <input id="scriptBox" type="text" onkeypress="return runScript(event)" /> -->
+                <!-- onkeypress=" runScript(event,'num-phone')" Need to add this-->
                 <h5> Please Leve Details And We Call You Back</h5>
-                <input class="user-name" type="text" placeholder="Enter Your Name " onkeypress=" runScript(event,'user-name')">
-                <input class="user-mail" type="mail" placeholder="Enter Your Mail" onkeypress=" runScript(event,'user-mail')">
-                <input class="num-phone" type="phone" placeholder="Enter Phone Number" onkeypress=" runScript(event,'num-phone')">
+                <input class="user-name" type="text" placeholder="Enter Your Name ">
+                <input class="user-mail" type="mail" placeholder="Enter Your Mail">
+                <input class="num-phone" type="phone" placeholder="Enter Phone Number">
                 <button class="create" onclick="onContectUs()">send </button>
-
-
 
             </div>
             <a class="showBtn" onclick="showContect()"> <img src="./img_web/icon-contact-us.svg"></a>
+
             <div class="container-online-contect" hidden>
+
                 <a href="https://facebook.com/aaa.granat.zzz" target="_blank"><img src="./img_web/facebook.jpg"></a>
                 <a href="https://github.com/EliGranat" target="_blank"><img src="./img_web/github.svg"></a>
                 <a href="https://twitter.com/eligranat" target="_blank"><img src="./img_web/twitter.png"></a>
                 <a href="https://instagram.com/eli_granat/" target="_blank"><img src="./img_web/instegram.png"></a>
+
             </div>
+
         </section>
+
         <div class="cofferight">
             <h5> &copy; coffeerights 2021 By Eli Granat</h5>
         </div>
+
+        <div class="shoping-cart-modal" hidden>
+            <div>
+
+                <h3> Shopping Cart </h3>
+                <div class="container-scroll-cart-modal"></div>
+                <div>
+
+                    <div class="chack-out-bottom">
+                        <button onclick="chackOutCart()">ChackOut</button>
+                    </div>
+
+                </div>
+
+            </div>
+
     </footer>
+
     <script src="./js/util-service.js"></script>
     <script src="./js/storage-service.js"></script>
     <script src="./js/users.js"></script>
