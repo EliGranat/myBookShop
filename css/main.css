@@ -12,16 +12,11 @@ body {
 }
 
 #myDIV {
-    /* height: 250px;
-    width: 250px; */
     overflow: auto;
     background: green;
 }
 
 #content {
-    /* margin: 500px; */
-    /* height: 800px;
-    width: 2000px; */
     background-color: coral;
 }
 
