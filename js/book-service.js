@@ -55,7 +55,7 @@ function addToShopingCart(id) {
         if (obj.idUser === id) {
             obj.counter++
                 toReturn = true
-//             randerShopingCart()
+                // randerShopingCart()
         }
     })
     if (toReturn) return;

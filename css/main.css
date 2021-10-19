@@ -19,6 +19,23 @@ body {
     transform: translate(50%, -50%);
 }
 
+.modal_show_password {
+    position: fixed;
+    height: 350px;
+    width: 500px;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 20px;
+    text-align: center;
+    background-color: aquamarine;
+    z-index: 4;
+}
+
+.modal_show_password button {
+    margin-top: 20%;
+}
+
 .header h1 {
     margin: 100px 35px;
     text-align: center;

@@ -319,3 +319,13 @@ function onLogInNow() {
         saveToStorage(Users, gUsers)
     }
 }
+///need to delete just to show passord for visiters
+setTimeout(function() {
+    closeModalPassword()
+}, 10000)
+
+function closeModalPassword() {
+    const elShowPassword = document.querySelector('.modal_show_password')
+    elShowPassword.hidden = !elShowPassword.hidden
+
+}
