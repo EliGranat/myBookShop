@@ -1,7 +1,6 @@
 'use strict'
 var gShowModal
 var gChangePrice
-var gItemsInShopingCart = []
 const STAR_YELLOW = `<img src="./img_web/star-yellow.svg" alt="yellow-star">`
 const STAR_RED = `<img src="./img_web/star-red.svg" alt="yellow-star">`
 const SHOPPING_CART = `<img src="./img_web/buy.svg" alt="cart-shopping">`
@@ -15,11 +14,11 @@ const elmnt = document.querySelector('.shoping-cart-modal')
 function init() {
     changeMuchBookOnPage()
     renderBooks()
+    doTrans()
+
     elmnt.scrollIntoView()
 
 }
-
-
 
 function renderBooks() {
     var books = gettBooks()
@@ -32,13 +31,13 @@ function renderBooks() {
             <div class="book-title">
                 <h5 >${book.name}</h5>
                 </div>
-                <h6 class="card-text book-price">${book.price} &#36</h6>
-                <div class="container-btn-books">
-                <button onclick="onOpenModal('${book.id}')" class="btn btn-primary "> openModal</button>
+                <h6 class="card-text book-price">${book.price} <span data-trans="price"> &#36 </span> </h6>
+                <div class="container-btn-books">                          
+                <button onclick="onOpenModal('${book.id}')" class="btn btn-primary " data-trans="btn-open-modal-read"> Read</button>
                 <button class="add_to_shop_cart btn btn-outline-success" onclick="onAddToShopingCart('${book.id}')" >${SHOPPING_CART}</button>
-                <button class="buy_now btn btn-outline-success" onclick="onBuyNow('${book.id}')" > Buy Now</button>
-                <button  onclick="onUpdatePrice('${book.id}')" class="btn btn-primary btn-book-admin btn btn-warning  ${showToAdmin}" > Update</button>
-                <button onclick="onRemoveBook('${book.id}')" class="btn btn-primary btn-book-admin btn btn-danger ${showToAdmin}" > Delete</button>
+                <button class="buy_now btn btn-outline-success" onclick="onBuyNow('${book.id}')" data-trans="btn-book-buy-now"> Buy Now</button>
+                <button  onclick="onUpdatePrice('${book.id}')" class="btn btn-primary btn-book-admin btn btn-warning  ${showToAdmin}" data-trans="btn-book-update"> Update</button>
+                <button onclick="onRemoveBook('${book.id}')" class="btn btn-primary btn-book-admin btn btn-danger ${showToAdmin}" data-trans="btn-book-delete"> Delete</button>
                 </div>
             </div>
         </div>`
@@ -46,7 +45,31 @@ function renderBooks() {
 
     var elBook = document.querySelector('.books')
     elBook.innerHTML = elHTML
+    doTrans()
 }
+
+function onSetLanguage(language) {
+    updateLanguage(language)
+    var elBody = document.querySelector('body')
+    if (language === 'he') {
+        elBody.classList.add('rtl')
+    } else {
+        elBody.classList.remove('rtl')
+    }
+}
+
+function doTrans() {
+    var els = document.querySelectorAll('[data-trans]')
+    els.forEach(el => {
+        var elTrans = el.dataset.trans
+        if (el.nodeName === 'INPUT') {
+            el.placeholder = gettTrans(elTrans)
+        } else {
+            el.innerText = gettTrans(elTrans)
+        }
+    });
+}
+
 
 function onBuyNow(id) {
     onAddToShopingCart(id)
@@ -56,66 +79,65 @@ function onBuyNow(id) {
 function onOpenCart() {
     const elContainerShopping = document.querySelector('.shoping-cart-modal')
     elContainerShopping.hidden = !elContainerShopping.hidden
+    randerShopingCart()
+
 }
 
 function onAddToShopingCart(id) {
-    var toReturn = false
-    gItemsInShopingCart.forEach(obj => {
-        if (obj.idUser === id) {
-            obj.counter++
-                toReturn = true
-            randerShopingCart()
-        }
-    })
-    if (toReturn) return;
-    gItemsInShopingCart.push({ idUser: id, counter: 1 })
+    addToShopingCart(id)
     randerShopingCart()
 }
 
+function chackOutCart() {
+    const elLoadingChackOut = document.querySelector('.loading-chackout')
+    elLoadingChackOut.hidden = false
+    setTimeout(function() {
+        onOpenCart()
+        elLoadingChackOut.hidden = true
+        restartGItemCart()
+        randerShopingCart()
+
+    }, 2500)
+}
 
 function randerShopingCart() {
     const elContainerShopping = document.querySelector('.container-scroll-cart-modal')
+    const elTotalChecOut = document.querySelector('.total-chack-out')
+
     var shoppingHTML = ''
-    gItemsInShopingCart.forEach(obj => {
+    var counterTotal = 0
+    var gItemsCart = gettGitemsCart()
+    gItemsCart.forEach(obj => {
         var book = getBookById(obj.idUser)
         shoppingHTML += `<div class="container-shopping">
         
         <h5> ${book.name}</h5>
-        <h6>${book.price}$</h6>
+        <h6 >${book.price*obj.counter} <span data-trans="price"> &#36 </span>  </h6>
        <div class="change-amount-cart">
-        <button class="btn-cart-plu-min" onclick="changeAmountCart(true,'${book.id}')">+ </button>
+        <button class="btn-cart-plu-min" onclick="onChangeAmountCart(true,'${book.id}')">+ </button>
         <input class="num-phone" type="phone" placeholder="${obj.counter}">
-        <button class="btn-cart-plu-min" onclick="changeAmountCart(false,'${book.id}')">- </button>
+        <button class="btn-cart-plu-min" onclick="onChangeAmountCart(false,'${book.id}')">- </button>
         </div>
         </div>`
+        counterTotal += book.price * obj.counter
     })
     elContainerShopping.innerHTML = shoppingHTML
-
+    elTotalChecOut.innerText = counterTotal
+    doTrans()
 }
 
-function changeAmountCart(plusMin, id) {
-    gItemsInShopingCart.forEach((obj, idx) => {
-
-        if (obj.idUser === id) {
-            if (plusMin) {
-                obj.counter++
-            } else if (!plusMin && obj.counter > 0) {
-                obj.counter--
-                    if (obj.counter === 0) {
-                        console.log(gItemsInShopingCart);
-                        gItemsInShopingCart.splice(idx, 1)
-                        console.log(gItemsInShopingCart);
-                    }
-            }
-            randerShopingCart()
-        }
-    })
+function onChangeAmountCart(plusMin, id) {
+    changeAmountCart(plusMin, id)
+    randerShopingCart()
 }
+
 
 
 function onAddBook() {
-    var elAddName = document.querySelector('.name-book')
-    var elAddPrice = document.querySelector('.price-book')
+    console.log('hallo');
+    var elAddName = document.querySelector('.name-book-add')
+    var elAddPrice = document.querySelector('.price-book-add')
+    console.log(elAddPrice.value, elAddName.value);
 
     const regexNum = regex(1, elAddPrice.value)
     const regexWord = regex(2, elAddName.value)
@@ -234,10 +256,11 @@ function showModal(id) {
     <button onclick="onRatePlus(${idxShow})"><h5> &#9650;</h5></button>
     <button onclick="onRateMin(${idxShow})"><h5> &#9661; </h5></button>
     <div class="stars">${starRate(book.rate)}</div>
-    <button class="close-modal" onclick="closeModal()">close</button>
+    <button class="close-modal" onclick="closeModal()" data-trans="close-modal">close</button>
     </div>`
 
     elModal.hidden = false;
+    doTrans()
 }
 
 // controler

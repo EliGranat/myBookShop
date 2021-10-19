@@ -1,18 +1,66 @@
 'use strict';
 // model all the function thet react to the control and let him services
 const KEY = 'booksSave'
+const KEY_ITEMS_CART = 'stItemCart'
 var gSizePage = 6
 var pageIdx = 0
 var gBooks;
 var gSortBy = 'SORT'
 var gConnectUs = []
+var gItemsInShopingCart = []
     // we need to check this:
     // saveToStorage(KEY, _getBookName())
-_createBooks()
+
+initServiceBook()
+
+function initServiceBook() {
+    _createBooks()
+    gItemsInShopingCart = loadFromStorage(KEY_ITEMS_CART)
+}
+
 
 function getBookById(idUser) {
     var book = gBooks.find(book => book.id === idUser)
     return book
+}
+
+function restartGItemCart() {
+    gItemsInShopingCart = []
+    saveToStorage(KEY_ITEMS_CART, gItemsInShopingCart)
+}
+
+function gettGitemsCart() {
+    return gItemsInShopingCart
+}
+
+function changeAmountCart(plusMin, id) {
+    gItemsInShopingCart.forEach((obj, idx) => {
+
+        if (obj.idUser === id) {
+            if (plusMin) {
+                obj.counter++
+            } else if (!plusMin && obj.counter > 0) {
+                obj.counter--
+                    if (obj.counter === 0) {
+                        gItemsInShopingCart.splice(idx, 1)
+                    }
+            }
+        }
+    })
+}
+
+function addToShopingCart(id) {
+    var toReturn = false
+    gItemsInShopingCart.forEach(obj => {
+        if (obj.idUser === id) {
+            obj.counter++
+                toReturn = true
+            randerShopingCart()
+        }
+    })
+    if (toReturn) return;
+    gItemsInShopingCart.push({ idUser: id, counter: 1, priceTotal: 0 })
+    saveToStorage(KEY_ITEMS_CART, gItemsInShopingCart)
 }
 
 function changeMuchBookOnPage() {
@@ -162,8 +210,9 @@ function _saveBooksToStorage() {
 // console.log(regex(6, 'hdguh$10ggDDhsd'));
 
 function regex(check, item) {
+
     const regexNum = /^[0-9]+$/g
-    const regexWord = /^[a-zA-Z ,.'-]+$/g
+    const regexWord = /^[a-zA-Zא-תáéíóú ,.'-]+$/g
     const regexPhone = /^(?:(?:(\+?972|\(\+?972\)|\+?\(972\))(?:\s|\.|-)?([1-9]\d?))|(0\d{1,2}))(?:\s|\.|-)?([^0\D]{1}\d{2}(?:\s|\.|-)?\d{4})$/g
     const regexMail = /^((\w[^\W]+)[\.\-]?){1,}\@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g
     const regexUserName = /^[a-zA-Z0-9]+[._]?[a-zA-Z0-9]+$/g

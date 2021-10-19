@@ -11,14 +11,15 @@
 </head>
 
 <body onload="init()">
+    <div class="loading-chackout" hidden> <img src="./img_web/Spinner.svg" alt="loading"></div>
     <section class="header">
-        <h1>Book-Shop</h1>
-        <h4 >login user - name:g , pass:h</h4>
-        <h4 > login admin - name:e , pass:9</h4>
+        <h1 data-trans="title">Book-Shop</h1>
+        <!-- <h4>login user - name:g , pass:h</h4>
+        <h4>login admin - name:e , pass:9</h4> -->
 
         <nav>
-            <button> <a href="#">Home</a></button>
-            <button><a href="#contact">Contect Us</a></button>
+            <button> <a data-trans="nav-home" href="#">Home</a></button>
+            <button> <a data-trans="nav-contact" href="#contact">Contect Us</a> </button>
         </nav>
 
         <div class="icon-open-cart" onclick="onOpenCart()">
@@ -28,44 +29,58 @@
         <div class="background-show-in-modals" hidden></div>
 
         <section class="login_modal" hidden>
-            <h3>Welcome</h3>
-            <h2> Log In </h2>
-            <input class="user_name" type="text" placeholder="User Name">
-            <input class="password" type="text" placeholder="Password">
-            <button onclick="onLogInNow()">log in</button>
+            <h3 data-trans="log-welcome">Welcome</h3>
+            <h2 data-trans="log-in"> Log In </h2>
+            <input class="user_name" type="text" data-trans="input-user-name" placeholder="User Name">
+            <input class="password" type="text" data-trans="input-password" placeholder="Password">
+            <button onclick="onLogInNow()" data-trans="log-in">log in</button>
         </section>
 
-        <div class="login_open_modal">
-            <button onclick="onLogOpenModal()">Log In</button>
-        </div>
 
-        <div class="logout_close_modal" hidden>
-            <button onclick="onLogOut()">Log out</button>
-        </div>
 
         <div class="container-head-action">
-            <div class="add-book" hidden>
-                <input class="name-book" type="text" placeholder="Name of the Book">
-                <input class="price-book" type="text" placeholder="Price of the Book">
-                <button class="create" onclick="onAddBook()">add new </button>
+            <div class="option-head">
+                <div class="login_open_modal">
+                    <button onclick="onLogOpenModal()" data-trans="log-in">Log In</button>
+                </div>
+
+                <div class="logout_close_modal" hidden>
+                    <button onclick="onLogOut()" data-trans="log-out">Log out</button>
+                </div>
+                <div class="sort-by">
+                    <select onchange="onSetSort(this.value)">
+                <option value="SORT"  data-trans="select-sort-by">SORT BY</option>
+                <option value="NAME"  data-trans="select-sort-name">NAME</option>
+                <option value="PRICE" data-trans="select-sort-price">PRICE</option>
+                </select>
+                </div>
+                <div class="language">
+                    <select onchange="onSetLanguage(this.value)">
+                <option value="en" >en</option>
+                <option value="es" >es</option>
+                <option value="he">he</option>
+                </select>
+                </div>
             </div>
 
-            <div class="sort-by">
-                <select onchange="onSetSort(this.value)">
-                <option value="SORT">SORT BY</option>
-                <option value="NAME">NAME</option>
-                <option value="PRICE">PRICE</option>
-                </select>
+            <div class="add-book" hidden>
+                <div>
+                    <input class="name-book-add" type="text" data-trans="input-name-book" placeholder="Name of the Book">
+                    <input class="price-book-add" type="text" data-trans="input-price-book" placeholder="Price of the Book">
+                </div>
+                <button class="create" onclick="onAddBook()" data-trans="btn-add-new">add new </button>
             </div>
+
+
 
         </div>
     </section>
 
     <div class="enter-new-price" hidden>
         <div class="container-update">
-            <h1>Please Enter New Price </h1>
-            <input class="update-price-book" type="text" placeholder="Update price">
-            <button class="update-price" onclick="onEnterPrice()">send new </button>
+            <h1 data-trans="enter-new-price">Please Enter New Price </h1>
+            <input class="update-price-book" data-trans="input-new-price" type="text" placeholder="Update price">
+            <button class="update-price" data-trans="btn-send-price" onclick="onEnterPrice()">send new </button>
         </div>
     </div>
 
@@ -77,7 +92,7 @@
     <div class="container-next-page">
 
         <div class="next-page">
-            <button onclick="onMovePage(1)"> <a href="#">Next Page</a></button>
+            <button onclick="onMovePage(1)"> <a href="#" data-trans="btn-next-page">Next Page</a></button>
         </div>
 
         <div class="num-page">
@@ -85,16 +100,16 @@
         </div>
 
         <div class="next-page">
-            <button onclick="onMovePage(0)"><a href="#">Back Page</a></button>
+            <button onclick="onMovePage(0)"><a href="#" data-trans="btn-Previous-page">Previous Page</a></button>
         </div>
 
     </div>
 
     <footer>
 
-        <section>
-            <h2>Welcome to Bookshop!</h2>
-            <p>
+        <section class="about-shop">
+            <h2 data-trans="welcom-about-shop">Welcome to Bookshop!</h2>
+            <p data-trans="peregraf-about-shop">
                 Bookshop is an online bookstore with a mission to financially support local, independent bookstores. We believe that bookstores are essential to a healthy culture. They’re where authors can connect with readers, where we discover new writers, where children
                 get hooked on the thrill of reading that can last a lifetime. They’re also anchors for our downtowns and communities. As more and more people buy their books online, we wanted to create an easy, convenient way for you to get your books
                 and support bookstores at the same time. If you want to find a specific local bookstore to support, find them on our map and they’ll receive the full profit off your order. Otherwise, your order will contribute to an earnings pool that
@@ -105,17 +120,18 @@
                 Bookshop is a benefit corporation - a corporation dedicated to the public good.</p>
         </section>
 
-        <section>
+        <section class="container-contact">
 
             <a name="contact"></a>
             <div class="connect-us">
-                <h3>Contact Us</h3>
-                <!-- onkeypress=" runScript(event,'num-phone')" Need to add this-->
-                <h5> Please Leve Details And We Call You Back</h5>
-                <input class="user-name" type="text" placeholder="Enter Your Name ">
-                <input class="user-mail" type="mail" placeholder="Enter Your Mail">
-                <input class="num-phone" type="phone" placeholder="Enter Phone Number">
-                <button class="create" onclick="onContectUs()">send </button>
+                <div class="input-contact">
+                    <h3 data-trans="contact-us">Contact Us</h3>
+                    <h5 data-trans="msg-form"> Please Leve Details And We Call You Back</h5>
+                    <input class="user-name" type="text" data-trans="input-form-name" placeholder="Enter Your Name ">
+                    <input class="user-mail" type="mail" data-trans="input-form-mail" placeholder="Enter Your Mail">
+                    <input class="num-phone" type="phone" data-trans="input-form-phone-num" placeholder="Enter Phone Number">
+                </div>
+                <button class="create" data-trans="btn-form-send" onclick="onContectUs()">send </button>
 
             </div>
             <a class="showBtn" onclick="showContect()"> <img src="./img_web/icon-contact-us.svg"></a>
@@ -137,13 +153,12 @@
 
         <div class="shoping-cart-modal" hidden>
             <div>
-
-                <h3> Shopping Cart </h3>
+                <h3 data-trans="shoping-cart-head"> Shopping Cart </h3>
                 <div class="container-scroll-cart-modal"></div>
                 <div>
-
                     <div class="chack-out-bottom">
-                        <button onclick="chackOutCart()">ChackOut</button>
+                        <h5> Total: <span class="total-chack-out"> </span><span data-trans="price"></span> </h5>
+                        <button onclick="chackOutCart()" data-trans="btn-cart-checkout">ChackOut</button>
                     </div>
 
                 </div>
@@ -155,6 +170,7 @@
     <script src="./js/util-service.js"></script>
     <script src="./js/storage-service.js"></script>
     <script src="./js/users.service.js"></script>
+    <script src="./js/i18n.service.js"></script>
     <script src="./js/book-service.js"></script>
     <script src="./js/book-controller.js"></script>
 
