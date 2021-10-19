@@ -15,7 +15,9 @@ initServiceBook()
 
 function initServiceBook() {
     _createBooks()
-    gItemsInShopingCart = loadFromStorage(KEY_ITEMS_CART)
+    var saveCart=loadFromStorage(KEY_ITEMS_CART)
+    if(saveCart){
+        gItemsInShopingCart = saveCart}  
 }
 
 
